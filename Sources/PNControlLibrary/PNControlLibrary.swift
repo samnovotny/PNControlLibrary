@@ -2,6 +2,7 @@ import Foundation
 
 struct PNControlLibrary {
     var text = "Hello PNControlLibrary!"
+    var url = "https://www.apple.com"
 }
 
 public enum Key: CodingKey {
@@ -17,8 +18,8 @@ public struct Message: Codable {
     var expires: Date
     var message: String
     
-    public init(date: Date, message: String) {
-        self.expires = date
+    public init(expires: Date, message: String) {
+        self.expires = expires
         self.message = message
     }
 }
@@ -57,30 +58,6 @@ public enum Payload: Codable {
         case .url(let url):
             try container.encode(url, forKey: .Url)
         }
-    }
-}
-
-public func encodePayload(payload: [Payload]) throws -> Data {
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = .prettyPrinted
-    let result = try encoder.encode(payload)
-    return result
-}
-
-public func decodePayload(data: Data) {
-    do {
-        let contents = try JSONDecoder().decode([Payload].self, from: data)
-        for cont in contents {
-            switch cont {
-            case .message(let msg) :
-                print("Message: \(msg.expires) - \(msg.message)")
-            case .url(let url) :
-                print("Url: \(url.url)")
-            }
-        }
-    }
-    catch {
-        print(error.localizedDescription)
     }
 }
 
