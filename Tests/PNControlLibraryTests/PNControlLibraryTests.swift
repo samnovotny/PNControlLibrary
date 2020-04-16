@@ -6,7 +6,7 @@ final class PNControlLibraryTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(PNControlLibrary().text, "Hello, World!")
+        XCTAssertEqual(PNControlLibrary().text, "Hello PNControlLibrary!")
     }
 
     static var allTests = [
