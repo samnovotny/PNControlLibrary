@@ -26,7 +26,7 @@ public enum Payload: Codable {
     case url(Url)
     case message(Message)
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
         if let msg = try? container.decode(Message.self, forKey: .Message) {
             self = .message(msg)
@@ -40,7 +40,7 @@ public enum Payload: Codable {
         }
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Key.self)
         switch self {
         case .message(let msg):
