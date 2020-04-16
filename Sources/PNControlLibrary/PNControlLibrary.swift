@@ -4,25 +4,25 @@ struct PNControlLibrary {
     var text = "Hello PNControlLibrary!"
 }
 
-enum Key: CodingKey {
+public enum Key: CodingKey {
     case Message
     case Url
 }
 
-enum PayloadError: Error {
+public enum PayloadError: Error {
     case decodeError
 }
 
-struct Message: Codable {
+public struct Message: Codable {
     var expires: Date
     var message: String
 }
 
-struct Url: Codable {
+public struct Url: Codable {
     var url: String
 }
 
-enum Payload: Codable {
+public enum Payload: Codable {
     case url(Url)
     case message(Message)
     
@@ -51,14 +51,14 @@ enum Payload: Codable {
     }
 }
 
-func encodePayload(payload: [Payload]) throws -> Data {
+public func encodePayload(payload: [Payload]) throws -> Data {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
     let result = try encoder.encode(payload)
     return result
 }
 
-func decodePayload(data: Data) {
+public func decodePayload(data: Data) {
     do {
         let contents = try JSONDecoder().decode([Payload].self, from: data)
         for cont in contents {
