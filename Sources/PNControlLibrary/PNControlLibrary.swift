@@ -15,8 +15,9 @@ public enum PayloadError: Error {
 }
 
 public struct Message: Codable {
-    var expires: Date
-    var message: String
+    public var expires: Date
+    public var message: String
+    public var oneTime = false
     
     public init(expires: Date, message: String) {
         self.expires = expires
@@ -25,7 +26,7 @@ public struct Message: Codable {
 }
 
 public struct Url: Codable {
-    var url: String
+    public var url: String
     
     public init(url: String) {
         self.url = url
