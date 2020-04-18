@@ -8,12 +8,15 @@ struct PNControlLibrary {
 public enum Key: CodingKey {
     case Message
     case Url
+    case Version
 }
 
 public enum PayloadError: Error {
     case decodeError
 }
 
+/// Definition of what can be in the payload: Message, URL, Version
+// *** Message
 public struct Message: Codable {
     public var expires: Date
     public var message: String
@@ -25,6 +28,7 @@ public struct Message: Codable {
     }
 }
 
+// *** Url
 public struct Url: Codable {
     public var url: String
     
@@ -33,9 +37,21 @@ public struct Url: Codable {
     }
 }
 
+// *** Version
+public struct Version: Codable {
+    public var version: String
+    
+    public init(version: String) {
+        self.version = version
+    }
+}
+
+// *** Payload ***
+//
 public enum Payload: Codable {
     case url(Url)
     case message(Message)
+    case version(Version)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
@@ -44,6 +60,10 @@ public enum Payload: Codable {
         }
         else if let url = try? container.decode(Url.self, forKey: .Url) {
             self = .url(url)
+            return
+        }
+        else if let version = try? container.decode(Version.self, forKey: .Version) {
+            self = .version(version)
             return
         }
         else {
@@ -58,6 +78,8 @@ public enum Payload: Codable {
             try container.encode(msg, forKey: .Message)
         case .url(let url):
             try container.encode(url, forKey: .Url)
+        case .version(let version):
+            try container.encode(version, forKey: .Version)
         }
     }
 }

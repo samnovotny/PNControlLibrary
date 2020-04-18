@@ -12,7 +12,8 @@ final class PNControlLibraryTests: XCTestCase {
     func encodeDecode() {
         let url = Url(url: PNControlLibrary().url)
         let message = Message(expires: date, message: PNControlLibrary().text)
-        let payload: [Payload] = [.message(message), .url(url)]
+        let version = Version(version: "1.0.5")
+        let payload: [Payload] = [.version(version), .message(message), .url(url)]
         let data = try? encodePayload(payload: payload)
         XCTAssertNotNil(data, "Encode failed.")
         decodePayload(data: data!)
@@ -33,8 +34,11 @@ final class PNControlLibraryTests: XCTestCase {
                 case .message(let msg) :
                     XCTAssertEqual(msg.expires, date)
                     XCTAssertEqual(msg.message, "Hello PNControlLibrary!")
+                    XCTAssertEqual(msg.oneTime, false)
                 case .url(let url) :
                     XCTAssertEqual(url.url, "https://www.apple.com")
+                case .version(let version) :
+                    XCTAssertEqual(version.version, "1.0.5")
                 }
             }
         }
